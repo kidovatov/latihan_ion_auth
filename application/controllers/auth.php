@@ -122,9 +122,16 @@ class Auth extends CI_Controller {
 	//change password
 	function change_password()
 	{
-		$this->form_validation->set_rules('old', $this->lang->line('change_password_validation_old_password_label'), 'required');
-		$this->form_validation->set_rules('new', $this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
-		$this->form_validation->set_rules('new_confirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
+		$this->form_validation->set_rules('old', 
+			$this->lang->line('change_password_validation_old_password_label'), 'required');
+		
+		$this->form_validation->set_rules('new', 
+			$this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . 
+			$this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . 
+			$this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
+		
+		$this->form_validation->set_rules('new_confirm', 
+			$this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
 
 		if (!$this->ion_auth->logged_in())
 		{
@@ -400,15 +407,20 @@ class Auth extends CI_Controller {
 		}
 	}
 
+	function signup() {
+		$this->load->view('auth/view_signup');
+	}	
+	
 	//create a new user
 	function create_user()
 	{
 		$this->data['title'] = "Create User";
 
-		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
-		{
-			redirect('auth', 'refresh');
-		}
+//		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+//		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+//		{
+//			redirect('auth/create_user', 'refresh');
+//		}
 
 		$tables = $this->config->item('tables','ion_auth');
 		
@@ -490,7 +502,7 @@ class Auth extends CI_Controller {
 				'value' => $this->form_validation->set_value('password_confirm'),
 			);
 
-			$this->_render_page('auth/create_user', $this->data);
+			$this->load->view('auth/view_signup');
 		}
 	}
 

@@ -9,8 +9,7 @@
 	<div id = "login_form">
 <h1><?php echo lang('login_heading');?></h1>
 
-
-<div id="infoMessage"><?php echo $message;?></div>
+<div id="infoMessage" style= "color:red;"><?php echo $message;?></div>
 
 <?php echo form_open("auth/login");?>
 
@@ -28,8 +27,8 @@
   </p>
 
 
-  <?php echo form_submit('submit', lang('login_submit_btn'));?>
-
+	<?php echo form_submit('submit', lang('login_submit_btn'));?>
+	<?php echo anchor('auth/signup', 'Create New Account'); ?>
 <?php echo form_close();?>
 
 <a href="forgot_password"><?php echo lang('login_forgot_password');?></a>

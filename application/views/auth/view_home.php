@@ -1,24 +1,14 @@
 <!doctype html>
 <html lang = "en">
-<head> <title> <?php echo $title; ?> </title> 
-	<style> 
-	body { font-family: cursive; } 
-	h3 { color: red; } 
-	h4 { color: green; } 
-	a { color : blue; } 
-	
-	.div1 {
-	width: 270px;
-	background: #AAC4C5;
-	border: 1px solid white;
-	margin: 100px auto 0;
-	padding: 1em;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-	text-position: center;
-	}
-	</style>
+<head>
+<title> <?php echo $title; ?> </title> 
+<link rel="stylesheet" href="<?php echo base_url();?>css/style.css" type="text/css">
+<script src ="<?php echo base_url();?>js/jquery-1.8.0.min.js" type="text/javascript"></script>
+<script src ="<?php echo base_url();?>js/home.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div id="register_form">
 </head>
 
 <body div class = "div1">

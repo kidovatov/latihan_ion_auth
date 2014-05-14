@@ -28,9 +28,9 @@
 
 
 	<?php echo form_submit('submit', lang('login_submit_btn'));?>
-	<?php echo anchor('auth/signup', 'Create New Account'); ?>
+	<?php echo anchor('auth/registrasi', 'Create New Account'); ?>
 <?php echo form_close();?>
 
-<a href="forgot_password"><?php echo lang('login_forgot_password');?></a>
+<a href="lupapassword"><?php echo lang('login_forgot_password');?></a>
 </div>
 </body></html>

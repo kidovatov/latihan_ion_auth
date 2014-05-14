@@ -14,7 +14,7 @@
 
 <div id="infoMessage"></div>
 
-<?php echo form_open("auth/forgot_password");?>
+<?php echo form_open("auth/lupapassword");?>
 
       <p>
       	<?php echo form_input($email, '', 'placeholder="E-mail"');?>

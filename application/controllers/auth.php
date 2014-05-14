@@ -22,9 +22,8 @@ class Auth extends CI_Controller {
 		$this->lang->load('auth');
 		$this->load->helper('language');
 	}
-
-	//redirect if needed, otherwise display the user list
-	function index()
+	
+		function index()
 	{
 
 		if (!$this->ion_auth->logged_in())
@@ -35,7 +34,7 @@ class Auth extends CI_Controller {
 		elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
 		{
 			//redirect them to the home page because they must be an administrator to view this
-			return show_error('You must be an administrator to view this page.');
+			redirect('auth/index2', 'refresh');
 		}
 		else
 		{
@@ -52,7 +51,12 @@ class Auth extends CI_Controller {
 			$this->_render_page('auth/index', $this->data);
 		}
 	}
-
+	
+	// HALAMAN MEMBER //
+	public function member() {
+		$this->load->view('auth/member');
+	}
+	
 	//log the user in
 	function login()
 	{
@@ -74,14 +78,16 @@ class Auth extends CI_Controller {
 			{
 				//if the login is successful
 				//redirect them back to the home page
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
+				$this->session->set_flashdata('message', 
+				$this->ion_auth->messages());
 				redirect('auth/index', 'refresh');
 			}
 			else
 			{
 				//if the login was un-successful
 				//redirect them back to the login page
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
+				$this->session->set_flashdata('message', 
+				$this->ion_auth->errors());
 				redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		}
@@ -105,6 +111,60 @@ class Auth extends CI_Controller {
 		}
 	}
 
+		function index2()
+	{
+		$this->data['title'] = "Login";
+
+		//validate form input
+		$this->form_validation->set_rules('identity', 'Identity', 'required');
+		$this->form_validation->set_rules('password', 'Password', 'required');
+
+		if ($this->form_validation->run() == true)
+		{
+			//check to see if the user is logging in
+			//check for "remember me"
+			$remember = (bool) $this->input->post('remember');
+
+			if ($this->ion_auth->login(
+				$this->input->post('identity'), 
+				$this->input->post('password'), $remember))
+			{
+				//if the login is successful
+				//redirect them back to the home page
+				$this->session->set_flashdata('message', 
+				$this->ion_auth->messages());
+				redirect('auth/index2', 'refresh');
+			}
+			else
+			{
+				//if the login was un-successful
+				//redirect them back to the login page
+				$this->session->set_flashdata('message', 
+				$this->ion_auth->errors());
+				redirect('auth/index2', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
+			}
+		}
+		else
+		{
+			//the user is not logging in so display the login page
+			//set the flash data error message if there is one
+			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+			$this->data['identity'] = array('name' => 'identity',
+				'id' => 'identity',
+				'type' => 'text',
+				'value' => $this->form_validation->set_value('identity'),
+			);
+			$this->data['password'] = array('name' => 'password',
+				'id' => 'password',
+				'type' => 'password',
+			);
+
+			$this->_render_page('auth/index2', $this->data);
+		}
+	}
+	
+	
 	//log the user out
 	function logout()
 	{
@@ -195,7 +255,7 @@ class Auth extends CI_Controller {
 	}
 
 	//forgot password
-	function forgot_password()
+	function lupapassword()
 	{
 		$this->form_validation->set_rules('email', $this->lang->line('forgot_password_validation_email_label'), 'required');
 		if ($this->form_validation->run() == false)
@@ -215,7 +275,7 @@ class Auth extends CI_Controller {
 
 			//set any errors and display the form
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-			$this->_render_page('auth/forgot_password', $this->data);
+			$this->_render_page('auth/lupapassword', $this->data);
 		}
 		else
 		{
@@ -230,7 +290,7 @@ class Auth extends CI_Controller {
 	            	if(empty($identity)) {
 		        	$this->ion_auth->set_message('forgot_password_email_not_found');
 		                $this->session->set_flashdata('message', $this->ion_auth->messages());
-                		redirect("auth/forgot_password", 'refresh');
+                		redirect("auth/lupapassword", 'refresh');
             		}
             
 			//run the forgotten password method to email an activation code to the user
@@ -245,7 +305,7 @@ class Auth extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect("auth/forgot_password", 'refresh');
+				redirect("auth/lupapassword", 'refresh');
 			}
 		}
 	}
@@ -407,7 +467,7 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	function signup() {
+	function registrasi() {
 		$this->load->view('auth/view_signup');
 	}	
 	
